@@ -5,7 +5,7 @@
     <title>Index: Get Username</title>
   </head>
   <body>
-    <form action="getuser.php" method="post">
+    <form action="getuser.php" method="get">
       <p>Get username: <input type="text" name="name" /><br />  
       <p><input type="submit" value="Submit"></p>
     </form>

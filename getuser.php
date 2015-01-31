@@ -2,6 +2,8 @@
 
 // print_r(PDO::getAvailableDrivers());
 
+header('Content-Type: application/json');
+
 try {
 
   $handler = new PDO('mysql:host=localhost;dbname=sakila', 'root', 'password');
@@ -22,19 +24,19 @@ class Actor {
   }
 }
 
-if(isset($_POST['name'])) { 
+if(isset($_GET['name'])) { 
       
-  $name = $_POST['name'];
+  $name = $_GET['name'];
 
-  $query = $handler->query("SELECT * FROM actor WHERE first_name = '$name'");
-  $query->setFetchMode(PDO::FETCH_CLASS, 'Actor');
-  $results = $query->fetchAll();
+  $query = $handler->query("SELECT * FROM actor WHERE first_name LIKE '%$name%' LIMIT 6");
+
+  $results = $query->fetchAll(PDO::FETCH_ASSOC);
   
-  if(count($results)) {
-    foreach ($results as $r) {
-      echo "<div>", $r->full_name, "</div>";
-    }
+  if(count($results)) { 
+
+      echo json_encode($results);
   } else {
+
     echo "Query returned no results.";
   }
 }
